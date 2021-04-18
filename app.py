@@ -41,7 +41,14 @@ def create_app(test_config=None):
 # ---------------------------------------------------------
 # Routes
 # ---------------------------------------------------------
-
+    
+    @app.route('/')
+    def get_greeting():
+        excited = os.environ.get('EXCITED')
+        greeting = "Welcome to Capstone" 
+        if excited == 'true': greeting = greeting + "!!!!!"
+        return greeting
+    
     # GET endpoint for list of actors in database.
     @app.route('/actors', methods=['GET'])
     def get_actors():
