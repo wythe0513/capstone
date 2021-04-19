@@ -3,16 +3,25 @@
 # Imports
 # ---------------------------------------------------------
 
-import os
+from sqlalchemy import Column, String, create_engine, Integer, Date
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_moment import Moment
+from config import database_params
+from datetime import date
+import json
+import os
 
 # ---------------------------------------------------------
 # App Config.
 # ---------------------------------------------------------
 
-database_path = os.environ.get('DATABASE_URL')
+database_path = os.environ.get('DATABASE_URL',"{}://{}:{}@localhost: 5432/{}".format(
+    database_params["dialect"],
+    database_params["username"],
+    database_params["password"],
+    database_params["db_name"]))
+ 
 #if not database_path:
 #    database_name = "agency"
 #    database_path = "postgres://{}/{}".format('localhost:5432', database_name)
@@ -79,7 +88,7 @@ class Movie(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
-    release = db.Column(db.String)
+    release = db.Column(db.Date)
 
     def __repr__(self):
         return f"<Movie id='{self.id}' title='{self.title}'>"

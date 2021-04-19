@@ -19,11 +19,12 @@ from auth import *
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    app.url_map.strict_slashes = False
+    #app.url_map.strict_slashes = False
     setup_db(app)
 
     # CORS app
-    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+    #cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app)
 
     # CORS Headers
     @app.after_request
@@ -259,6 +260,7 @@ def create_app(test_config=None):
 
     return app
 
+app = create_app()
 
 if __name__ == '__main__':
     app.run()
