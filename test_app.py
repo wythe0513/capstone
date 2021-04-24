@@ -12,15 +12,15 @@ from datetime import date
 # Later used by test classes as Header
 
 casting_assistant_auth_header = {
-    'Authorization': bearer_tokens['casting_assistant']
+    'Authorization': bearer_tokens['casting-assistant']
 }
 
 casting_director_auth_header = {
-    'Authorization': bearer_tokens['casting_director']
+    'Authorization': bearer_tokens['casting-director']
 }
 
 executive_producer_auth_header = {
-    'Authorization': bearer_tokens['executive_producer']
+    'Authorization': bearer_tokens['executive-producer']
 }
 
 
