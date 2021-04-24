@@ -22,24 +22,62 @@ database_path = os.environ.get('DATABASE_URL',"{}://{}:{}@localhost: 5432/{}".fo
     database_params["password"],
     database_params["db_name"]))
  
-#if not database_path:
-#    database_name = "agency"
-#    database_path = "postgres://{}/{}".format('localhost:5432', database_name)
-
 db = SQLAlchemy()
-moment = Moment()
+#moment = Moment()
 
 
 # Set-up database-related Flask modules.
 def setup_db(app, database_path=database_path):
-    app.config.from_pyfile('config.py', silent=False)
+    '''binds a flask application and a SQLAlchemy service'''
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
-    moment.app = app
     db.init_app(app)
     db.create_all()
 
+def db_drop_and_create_all():
+    '''drops the database tables and starts fresh
+    can be used to initialize a clean database
+    '''
+    db.drop_all()
+    db.create_all()
+    db_init_records()
+
+def db_init_records():
+    '''this will initialize the database with some test records.'''
+
+    new_actor = (Actor(
+        name = 'Matthew',
+        gender = 'Male',
+        age = 25
+        ))
+
+    new_movie = (Movie(
+        title = 'Matthew first Movie',
+        release = date.today()
+        ))
+
+    new_performance = Performance.insert().values(
+        Movie_id = new_movie.id,
+        Actor_id = new_actor.id,
+        actor_fee = 500.00
+    )
+
+    new_actor.insert()
+    new_movie.insert()
+    db.session.execute(new_performance) 
+    db.session.commit()
+
+#----------------------------------------------------------------------------#
+# Performance Junction Object N:N 
+#----------------------------------------------------------------------------#
+
+# Instead of creating a new Table, the documentation recommends to create a association table
+Performance = db.Table('Performance', db.Model.metadata,
+    db.Column('Movie_id', db.Integer, db.ForeignKey('movies.id')),
+    db.Column('Actor_id', db.Integer, db.ForeignKey('actors.id')),
+    db.Column('actor_fee', db.Float)
+)
 # ---------------------------------------------------------
 # Models.
 # ---------------------------------------------------------
