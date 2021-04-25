@@ -19,12 +19,11 @@ from auth import *
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    #app.url_map.strict_slashes = False
+    app.url_map.strict_slashes = False
     setup_db(app)
 
     # CORS app
-    #cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-    CORS(app)
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     # CORS Headers
     @app.after_request
@@ -42,14 +41,7 @@ def create_app(test_config=None):
 # ---------------------------------------------------------
 # Routes
 # ---------------------------------------------------------
-    
-    @app.route('/')
-    def get_greeting():
-        excited = os.environ.get('EXCITED')
-        greeting = "Welcome to Capstone" 
-        if excited == 'true': greeting = greeting + "!!!!!"
-        return greeting
-    
+
     # GET endpoint for list of actors in database.
     @app.route('/actors', methods=['GET'])
     def get_actors():
@@ -261,8 +253,6 @@ def create_app(test_config=None):
     return app
 
 app = create_app()
-
-
 
 if __name__ == '__main__':
     app.run()

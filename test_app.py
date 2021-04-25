@@ -82,7 +82,9 @@ class AgencyTestCase(unittest.TestCase):
             'gender': "New actor gender worked."
         } 
 
-        res = self.client().post('/add-actor', data=json.dumps(new_actor_data), headers={'Content-Type': 'application/json'})
+        res = self.client().post('/add-actor', data=json.dumps(new_actor_data), 
+                                 headers={'Content-Type': 'application/json'})
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -100,7 +102,9 @@ class AgencyTestCase(unittest.TestCase):
             'gender': "male"
         } 
 
-        res = self.client().post('/add-actor', data=json.dumps(new_actor_data), headers={'Content-Type': 'application/json'})
+        res = self.client().post('/add-actor', data=json.dumps(new_actor_data), 
+                                 headers={'Content-Type': 'application/json'})
+        
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -113,7 +117,9 @@ class AgencyTestCase(unittest.TestCase):
             'release': "New movie release date worked.",
         }
 
-        res = self.client().post('/add-movie', data=json.dumps(new_movie_data), headers={'Content-Type': 'application/json'})
+        res = self.client().post('/add-movie', data=json.dumps(new_movie_data), 
+                                 headers={'Content-Type': 'application/json'})
+        
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -129,7 +135,9 @@ class AgencyTestCase(unittest.TestCase):
             'title': "Testing a new movie with missing data."
         } 
 
-        res = self.client().post('/add-movie', data=json.dumps(new_movie_data), headers={'Content-Type': 'application/json'})
+        res = self.client().post('/add-movie', data=json.dumps(new_movie_data), 
+                                 headers={'Content-Type': 'application/json'})
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -165,7 +173,9 @@ class AgencyTestCase(unittest.TestCase):
             'age': '1'
         } 
 
-        res = self.client().patch('/actors/9999', data=json.dumps(actor_data_patch), headers={'Content-Type': 'application/json'})
+        res = self.client().patch('/actors/9999', data=json.dumps(actor_data_patch), 
+                                  headers={'Content-Type': 'application/json'})
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -219,7 +229,9 @@ class AgencyTestCase(unittest.TestCase):
             'title': 'Foo'
         } 
 
-        res = self.client().patch('/movies/9999', data=json.dumps(movie_data_patch), headers={'Content-Type': 'application/json'})
+        res = self.client().patch('/movies/9999', data=json.dumps(movie_data_patch), 
+                                  headers={'Content-Type': 'application/json'})
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
