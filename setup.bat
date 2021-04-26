@@ -1,1 +1,0 @@
-set DATABASE_URL = "postgresql://postgres:wythenshawe0513@localhost: 5432/heroku"
