@@ -16,7 +16,7 @@ from flask_moment import Moment
 
 database_path = os.environ.get('DATABASE_URL')
 if not database_path:
-    database_name = "heroku"
+    database_name = "henana"
     database_path = "postgresql://{}/{}".format('postgres:wythenshawe0513@localhost:5432', database_name)
 
 db = SQLAlchemy()
