@@ -9,7 +9,7 @@ database_params= {
     "dialect":"postgresql",
     "username":"postgres",
     "password":"wythenshawe0513",
-    "db_name":"heroku"
+    "db_name":"henana"
 
     }
 
