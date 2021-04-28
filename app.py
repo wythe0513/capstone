@@ -41,7 +41,11 @@ def create_app(test_config=None):
 # ---------------------------------------------------------
 # Routes
 # ---------------------------------------------------------
-
+    @app.route('/')
+    def get_greeting():
+        greeting = "Welcome to Agency" 
+        return greeting
+    
     # GET endpoint for list of actors in database.
     @app.route('/actors', methods=['GET'])
     def get_actors():
