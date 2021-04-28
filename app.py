@@ -43,7 +43,7 @@ def create_app(test_config=None):
 # ---------------------------------------------------------
     @app.route('/')
     def get_greeting():
-        greeting = "Welcome to Agency" 
+        greeting = "Welcome to Agency! You can get JWT here." 
         return greeting
     
     # GET endpoint for list of actors in database.
