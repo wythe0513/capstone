@@ -18,17 +18,18 @@ Two tables are created;
 Three roles and permissions are set in Auth0;
 
 **Casting Assistant :** <br>
-view actors and movies(GET '/actors', GET '/movies')<br>
+- view actors and movies(GET '/actors', GET '/movies')<br>
 
 **Casting Director :** <br>
-view actors and movies(GET '/actors', GET '/movies')<br>
-add or delete an actor(POST '/add-actor', DELETE '/actors/\<int:actor_id>')<br>
-modify actors or movies(PATCH '/acotrs/\<int:movie_id>, PATCH '/movies/\<int:movie_id>) <br>
+- view actors and movies(GET '/actors', GET '/movies')<br>
+- add or delete an actor(POST '/add-actor', DELETE '/actors/\<int:actor_id>')<br>
+- modify actors or movies(PATCH '/acotrs/\<int:movie_id>, PATCH '/movies/\<int:movie_id>) <br>
 
 **Executive Producer :**<br>
-add or delete an actor(POST '/add-actor', DELETE '/actors/\<int:actor_id>')<br>
-modify actors or movies(PATCH '/acotrs/\<int:movie_id>, PATCH '/movies/\<int:movie_id>) <br>
-add or delete a movie(POST '/add-movie', DELETE '/movies/\<int:movie_id>')<br> 
+- view actors and movies(GET '/actors', GET '/movies')<br>
+- add or delete an actor(POST '/add-actor', DELETE '/actors/\<int:actor_id>')<br>
+- modify actors or movies(PATCH '/acotrs/\<int:movie_id>, PATCH '/movies/\<int:movie_id>) <br>
+- add or delete a movie(POST '/add-movie', DELETE '/movies/\<int:movie_id>')<br> 
 
 
 ## Run locally
