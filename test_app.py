@@ -39,7 +39,7 @@ class AgencyTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "henana"
-        self.database_path = "postgresql://{}/{}".format('postgres:wythenshawe0513@localhost:5432',
+        self.database_path = "postgresql://{}/{}".format('postgres:XXXXX@localhost:5432',
                                                          self.database_name)
         setup_db(self.app, self.database_path)
 

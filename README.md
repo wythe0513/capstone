@@ -47,6 +47,10 @@ To run the following commands;
 Acess [Auth0 here](https://tomascap.jp.auth0.com/authorize?audience=agency&response_type=token&client_id=53BPJctnRYyC5bBVLQhRwxZRrFTO9Wgf&redirect_uri=https://heichi.herokuapp.com/)
 , JWT is availabe for each role. E-mail adress and password are as follows;<br>
 
+In case if the above link does not work, access to the following url;<br>
+
+https://tomascap.jp.auth0.com/authorize?audience=agency&response_type=token&client_id=53BPJctnRYyC5bBVLQhRwxZRrFTO9Wgf&redirect_uri=https://heichi.herokuapp.com/
+
 \<< e-mail adress >><br>
 
 **Casting Assistant :** casting_assistant@udacity.com<br>
