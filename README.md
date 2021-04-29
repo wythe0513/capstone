@@ -41,3 +41,11 @@ To put following commands to run locally;
 `$ .\env\Scripts\activate`<br>
 `$ pip install -r requirements.txt`<br>
 `$ set FLASK_APP=app.py && set FLASK_ENV=development && python app.py`<br>
+
+## Get Auth JWT tokens for each Role
+
+acess [Auth0 here](https://tomascap.jp.auth0.com/authorize?audience=agency&response_type=token&client_id=53BPJctnRYyC5bBVLQhRwxZRrFTO9Wgf&redirect_uri=https://heichi.herokuapp.com/)
+
+**Casting Assistant :** casting_assistant@udacity.com<br>
+**Casting Director :** canting_director@udacity.com<br>
+**Executive Producer :** executive_producer@udacity.com<br>
