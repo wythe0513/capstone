@@ -34,7 +34,7 @@ Three roles and permissions are set in Auth0;
 
 ## Run locally
 It works under windows10 python 3.7.8 environment. <br>
-To put following commands;
+To run the following commands;
 
 `$ cd ./starter`<br>
 `$ python -m virtualenv env`<br>
@@ -56,6 +56,14 @@ Acess [Auth0 here](https://tomascap.jp.auth0.com/authorize?audience=agency&respo
 \<< Password >>
 
 Udacity!
+
+## Running Tests
+
+To run the unittests, first get valid JWT for each role, then run the following commands:
+
+`$ cd ./starter`<br>
+`$ python test_app.py`<br>
+
 
 ## Deployment to Heroku
 
