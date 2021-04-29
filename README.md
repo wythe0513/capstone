@@ -34,9 +34,9 @@ Three roles and permissions are set in Auth0;
 
 ## Run locally
 It works under windows10 python 3.7.8 environment. <br>
-To put following commands to run locally;
+To put following commands;
 
-`$ cd starter`<br>
+`$ cd ./starter`<br>
 `$ python -m virtualenv env`<br>
 `$ .\env\Scripts\activate`<br>
 `$ pip install -r requirements.txt`<br>
@@ -44,8 +44,21 @@ To put following commands to run locally;
 
 ## Get Auth JWT tokens for each Role
 
-acess [Auth0 here](https://tomascap.jp.auth0.com/authorize?audience=agency&response_type=token&client_id=53BPJctnRYyC5bBVLQhRwxZRrFTO9Wgf&redirect_uri=https://heichi.herokuapp.com/)
+Acess [Auth0 here](https://tomascap.jp.auth0.com/authorize?audience=agency&response_type=token&client_id=53BPJctnRYyC5bBVLQhRwxZRrFTO9Wgf&redirect_uri=https://heichi.herokuapp.com/)
+, JWT is availabe for each role. E-mail adress and password are as follows;<br>
+
+\<< e-mail adress >><br>
 
 **Casting Assistant :** casting_assistant@udacity.com<br>
-**Casting Director :** canting_director@udacity.com<br>
+**Casting Director :** casting_director@udacity.com<br>
 **Executive Producer :** executive_producer@udacity.com<br>
+
+\<< Password >>
+
+Udacity!
+
+## Deployment to Heroku
+
+Deployed to :
+
+https//heichi.herokuapp.com/
