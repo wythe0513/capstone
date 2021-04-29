@@ -48,6 +48,7 @@ def create_app(test_config=None):
     
     # GET endpoint for list of actors in database.
     @app.route('/actors', methods=['GET'])
+    @requires_auth('get:actors')
     def get_actors():
         actors = Actor.query.all()
 
@@ -61,6 +62,7 @@ def create_app(test_config=None):
 
     # GET endpoint for list of movies in database.
     @app.route('/movies', methods=['GET'])
+    @requires_auth('get:movies')
     def get_movies():
         movies = Movie.query.all()
 
