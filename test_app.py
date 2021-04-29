@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from app import create_app
 from models import setup_db, Actor, Movie
 from config import bearer_tokens
-from datetime import date
+from datetime import date, datetime
 
 # Create dict with Authorization key and Bearer token as values. 
 # Later used by test classes as Header
@@ -50,12 +50,47 @@ class AgencyTestCase(unittest.TestCase):
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
             self.db.drop_all()
-            # create all tables
             self.db.create_all()
     
     def tearDown(self):
         """Executed after reach test"""
         pass
+
+    def test_should_return_all_actors(self):
+        # Insert dummy actor into database.
+        actor = Actor(name="Leonardo Di Caprio", age="45", gender="male")
+        actor.insert()
+
+        res = self.client().get('/actors', headers = casting_assistant_auth_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+
+        actors = Actor.query.all()
+        self.assertEqual(len(data['actors']), len(actors))
+
+    def test_get_actors_dont_accept_post_request(self):
+        res = self.client().post('/actors')
+        self.assertEqual(res.status_code, 405)
+
+    def test_should_return_all_movies(self):
+        # Insert dummy actor into database.
+        movie = Movie(title="Devil Wears Prada", release="June 30, 2006")
+        movie.insert()
+
+        res = self.client().get('/movies', headers = casting_assistant_auth_header )
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+
+        movies = Movie.query.all()
+        self.assertEqual(len(data['movies']), len(movies))
+
+    def test_get_movies_dont_accept_post_request(self):
+        res = self.client().post('/movies')
+        self.assertEqual(res.status_code, 405)
 
     def test_create_new_actor(self):
         """Test POST new actor."""
@@ -66,7 +101,10 @@ class AgencyTestCase(unittest.TestCase):
             'gender': "New actor gender worked."
         } 
 
-        res = self.client().post('/add-actor', data = json.dumps(json_create_actor), headers = casting_director_auth_header)
+        res = self.client().post('/add-actor',
+                                 data = json.dumps(json_create_actor),
+                                headers = casting_director_auth_header)
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -74,38 +112,28 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['actor']['name'], json_create_actor['name'])
         self.assertEqual(data['actor']['age'], json_create_actor['age'])
         self.assertEqual(data['actor']['gender'], json_create_actor['gender'])
+
+        actor_added = Actor.query.get(data['actor']['id'])
+        self.assertTrue(actor_added)
     
     def test_error_401_new_actor(self):
         """Test POST new actor w/o Authorization."""
 
         json_create_actor = {
-            'name': "New actor name worked.",
-            'age': "New actor age worked.",
-            'gender': "New actor gender worked."
-        } 
+            'name': "age missing",
+            'gender': "ng"            
+            } 
 
-        res = self.client().post('/add-actor', data = json.dumps(json_create_actor))
+        res = self.client().post('/add-actor', data = json.dumps(json_create_actor),
+                                 headers = executive_producer_auth_header
+                                 )
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['error'],422)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'], 'Authorization header not found.')
 
-    #def test_error_422_create_new_actor(self):
-    #    """Test Error POST new actor."""
-    #
-    #    json_create_actor_without_name_gender = {
-    #        'age': "New actor age worked."
-    #    } 
-    #
-    #    res = self.client().post('/add-actor', data = json.dumps(json_create_actor_without_name_gender),
-    #                            headers = casting_director_auth_header)
-    #    data = json.loads(res.data)
-    #
-    #    self.assertEqual(res.status_code, 422)
-    #    self.assertFalse(data['success'])
-    #    self.assertEqual(data['message'], 'Request could not be processed.')
-
+    
 #----------------------------------------------------------------------------#
 # Tests for /actors GET
 #----------------------------------------------------------------------------#
@@ -154,7 +182,7 @@ class AgencyTestCase(unittest.TestCase):
         
         res = self.client().patch(
            f'/actors/{actor_id}',
-           data = json.dums(json_edit_actor_with_new_age),
+           data = json.dumps(json_edit_actor_with_new_age),
            headers = casting_director_auth_header
            )
         
@@ -184,7 +212,10 @@ class AgencyTestCase(unittest.TestCase):
         json_edit_actor_with_new_age = {
             'age' : 30
         } 
-        res = self.client().patch('/actors/123412', json = json_edit_actor_with_new_age, headers = casting_director_auth_header)
+        res = self.client().patch('/actors/123412',
+                                  json = json_edit_actor_with_new_age,
+                                  headers = casting_director_auth_header
+                                  )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -215,12 +246,19 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_delete_actor(self):
         """Test DELETE existing actor"""
-        res = self.client().delete('/actors/1', headers = casting_director_auth_header)
+
+        actor = Actor(name="unchi", age="5", gender="female")
+        actor.insert()
+        #actor_id = actor.id
+
+        res = self.client().delete('f/actors/{actor.id}',
+                                   headers = casting_director_auth_header)
+
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['deleted'], '1')
+        self.assertEqual(data['actor_id'], actor.id)
 
     def test_error_404_delete_actor(self):
         """Test DELETE non existing actor"""
@@ -240,7 +278,7 @@ class AgencyTestCase(unittest.TestCase):
 
         json_create_movie = {
             'title' : 'Crisso Movie',
-            'release_date' : date.today()
+            'release_date' : "March 20, 1998"
         } 
 
         res = self.client().post('/add-movie', data = json.dumps(json_create_movie)
@@ -259,7 +297,7 @@ class AgencyTestCase(unittest.TestCase):
         """Test Error POST new movie."""
 
         json_create_movie = {
-            'release_date' : date.today()
+            'release_date' : "2013/06/09"
         } 
 
         res = self.client().post('/add-movie', data = json.dumps(json_create_movie)
@@ -294,7 +332,8 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_error_404_get_movies(self):
         """Test Error GET all movies."""
-        res = self.client().get('/movies/1125125125', headers = casting_assistant_auth_header)
+        res = self.client().get('/movies/1125125125',
+                               headers = casting_assistant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -347,7 +386,7 @@ class AgencyTestCase(unittest.TestCase):
             'release_date' : date.today()
         } 
         res = self.client().patch('/movies/123412',
-                                  data = json.dums(json_edit_movie),
+                                  data = json.dumps(json_edit_movie),
                                   headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
@@ -379,12 +418,23 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_delete_movie(self):
         """Test DELETE existing movie"""
-        res = self.client().delete('/movies/1', headers = executive_producer_auth_header)
+
+        movie = Movie(title="Invisible Man", release="March 20, 1998")
+        movie.insert()
+        movie_id= movie.id
+
+
+        res = self.client().delete(f'/movies/{movie_id}',
+                                   headers = executive_producer_auth_header
+                                   )
         data = json.loads(res.data)
+
+        movie = Movie.query.filter(Movie.id == movie.id).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['deleted'], '1')
+        self.assertEqual(data['deleted'], str(movie_id))
+        self.assertEqual(movie,None)
 
     def test_error_404_delete_movie(self):
         """Test DELETE non existing movie"""
