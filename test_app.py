@@ -56,7 +56,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_should_return_all_actors(self):
         # Insert dummy actor into database.
-        actor = Actor(name="Leonardo Di Caprio", age="45", gender="male")
+        actor = Actor(name="taro", age="13", gender="male")
         actor.insert()
 
         res = self.client().get('/actors', headers = casting_assistant_auth_header)
@@ -74,7 +74,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_should_return_all_movies(self):
         # Insert dummy actor into database.
-        movie = Movie(title="Devil Wears Prada", release="June 30, 2006")
+        movie = Movie(title="kimetu", release="June 30, 2006")
         movie.insert()
 
         res = self.client().get('/movies', headers = casting_assistant_auth_header )
@@ -94,9 +94,9 @@ class AgencyTestCase(unittest.TestCase):
         """Test POST new actor."""
 
         json_create_actor = {
-            'name': "New actor name worked.",
-            'age': "New actor age worked.",
-            'gender': "New actor gender worked."
+            'name': "New actor name",
+            'age': "New actor age",
+            'gender': "New actor gender"
         } 
 
         res = self.client().post('/add-actor',
@@ -164,7 +164,7 @@ class AgencyTestCase(unittest.TestCase):
     def test_edit_actor(self):
         """Test PATCH existing actors"""
         
-        actor = Actor(name="Anne Hathaway", age="50", gender="female")
+        actor = Actor(name="kguyahime", age="20", gender="female")
         actor.insert()
         actor_id = actor.id
         
